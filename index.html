@@ -160,7 +160,7 @@
                     </div>
                     <!-- Customer Selector -->
                     <select id="cart-customer-select" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 max-w-[140px] focus:outline-none">
-                        <option value="">-- Pelanggan Umun --</option>
+                        <option value="">-- Pelanggan Umum --</option>
                     </select>
                 </div>
 
@@ -229,7 +229,43 @@
             </div>
         </main>
 
-        <!-- VIEW 3: SHIFT KASIR -->
+        <!-- VIEW 3: RIWAYAT TRANSAKSI (PERMANENT LOG) -->
+        <main id="view-transactions" class="view-panel hidden flex-1 flex-col p-4 overflow-y-auto w-full">
+            <div class="max-w-6xl mx-auto w-full space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                    <div>
+                        <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Riwayat Transaksi Terlengkap
+                        </h2>
+                        <p class="text-xs text-slate-400">Daftar permanen seluruh transaksi yang tersimpan di memori perangkat.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="search-trx-input" oninput="UI.renderTransactions()" placeholder="Cari ID Trx / Pelanggan..." class="bg-slate-950 text-xs text-white px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-brand-500">
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
+                                <tr>
+                                    <th class="p-3">ID Transaksi</th>
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Pelanggan</th>
+                                    <th class="p-3">Metode Bayar</th>
+                                    <th class="p-3">Jumlah Item</th>
+                                    <th class="p-3">Total Pembayaran</th>
+                                    <th class="p-3 text-right">Cetak Struk</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-history-table" class="divide-y divide-slate-800"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW 4: SHIFT KASIR -->
         <main id="view-shift" class="view-panel hidden flex-1 flex-col p-4 overflow-y-auto w-full">
             <div class="max-w-xl mx-auto w-full space-y-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4">
@@ -276,7 +312,7 @@
             </div>
         </main>
 
-        <!-- VIEW 4: PELANGGAN & PIUTANG (BON) -->
+        <!-- VIEW 5: PELANGGAN & PIUTANG (BON) -->
         <main id="view-customers" class="view-panel hidden flex-1 flex-col p-4 overflow-y-auto w-full">
             <div class="max-w-6xl mx-auto w-full space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
@@ -310,10 +346,9 @@
             </div>
         </main>
 
-        <!-- VIEW 5: LAPORAN & ANALITIK KEUTANGAN -->
+        <!-- VIEW 6: LAPORAN & ANALITIK KEUANGAN -->
         <main id="view-reports" class="view-panel hidden flex-1 flex-col p-4 overflow-y-auto w-full">
             <div class="max-w-6xl mx-auto w-full space-y-4">
-                <!-- Export & Header Bar -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
                     <div>
                         <h2 class="text-base font-bold text-white flex items-center gap-2">
@@ -362,7 +397,7 @@
                 <!-- Chart & Top Products -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                        <h3 class="text-xs font-bold text-slate-300 mb-3">Grafik Penjualan 7 Hari Terakhir</h3>
+                        <h3 class="text-xs font-bold text-slate-300 mb-3">Grafik Penjualan</h3>
                         <div class="h-56 relative">
                             <canvas id="sales-chart"></canvas>
                         </div>
@@ -375,7 +410,7 @@
             </div>
         </main>
 
-        <!-- VIEW 6: PWA BACKUP & SETTINGS -->
+        <!-- VIEW 7: PWA BACKUP & SETTINGS -->
         <main id="view-settings" class="view-panel hidden flex-1 flex-col p-4 overflow-y-auto w-full">
             <div class="max-w-2xl mx-auto w-full space-y-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4">
@@ -415,30 +450,34 @@
     </div>
 
     <!-- BOTTOM NAVIGATION BAR -->
-    <nav class="bg-slate-900/95 backdrop-blur border-t border-slate-800 grid grid-cols-6 shrink-0 z-20">
+    <nav class="bg-slate-900/95 backdrop-blur border-t border-slate-800 grid grid-cols-7 shrink-0 z-20">
         <button data-target="view-pos" class="nav-btn active flex flex-col items-center py-2 text-brand-400 transition-colors">
             <i class="fa-solid fa-border-all text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Kasir</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Kasir</span>
+        </button>
+        <button data-target="view-transactions" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
+            <i class="fa-solid fa-clock-rotate-left text-sm mb-0.5"></i>
+            <span class="text-[8px] sm:text-[9px] font-bold">Riwayat</span>
         </button>
         <button data-target="view-products" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
             <i class="fa-solid fa-boxes-stacked text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Produk</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Produk</span>
         </button>
         <button data-target="view-shift" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
             <i class="fa-solid fa-cash-register text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Shift</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Shift</span>
         </button>
         <button data-target="view-customers" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
             <i class="fa-solid fa-users text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Pelanggan</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Pelanggan</span>
         </button>
         <button data-target="view-reports" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
             <i class="fa-solid fa-chart-pie text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Laporan</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Laporan</span>
         </button>
         <button data-target="view-settings" class="nav-btn flex flex-col items-center py-2 text-slate-400 hover:text-slate-200 transition-colors">
             <i class="fa-solid fa-sliders text-sm mb-0.5"></i>
-            <span class="text-[9px] font-bold">Pengaturan</span>
+            <span class="text-[8px] sm:text-[9px] font-bold">Pengaturan</span>
         </button>
     </nav>
 
@@ -776,7 +815,7 @@
             { id: 1, name: 'Espresso Single', barcode: '8991001', category: 'Minuman', cost: 8000, price: 18000, stock: 35, minStock: 5 },
             { id: 2, name: 'Iced Cappuccino', barcode: '8991002', category: 'Minuman', cost: 12000, price: 28000, stock: 20, minStock: 5 },
             { id: 3, name: 'Nasi Goreng Spesial', barcode: '8991003', category: 'Makanan', cost: 15000, price: 35000, stock: 15, minStock: 3 },
-            { id: 4, name: 'Croissant Butter', barcode: '8991004', category: 'Dessert', cost: 10000, price: 22000, stock: 4, minStock: 5 }, // Low stock sample
+            { id: 4, name: 'Croissant Butter', barcode: '8991004', category: 'Dessert', cost: 10000, price: 22000, stock: 4, minStock: 5 },
         ];
 
         const SEED_CUSTOMERS = [
@@ -785,7 +824,7 @@
         ];
 
         /**
-         * 3. APPLICATION LOGIC ENGINE
+         * 3. APPLICATION LOGIC ENGINE & FIX FOR TRANSACTION PERSISTENCE
          */
         const App = {
             async init() {
@@ -808,13 +847,18 @@
                 AppState.customers = custs;
 
                 // Load History & Shift
-                AppState.transactions = (await AppState.db.getAll('transactions')).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+                await this.reloadTransactions();
                 
                 const shifts = await AppState.db.getAll('shifts');
                 AppState.currentShift = shifts.find(s => s.status === 'open') || null;
 
                 UI.init();
                 this.checkPendingSync();
+            },
+
+            async reloadTransactions() {
+                const allTrx = await AppState.db.getAll('transactions');
+                AppState.transactions = allTrx.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
             },
 
             async startShift() {
@@ -874,7 +918,7 @@
                     synced: navigator.onLine
                 };
 
-                // Save Transaction
+                // Save Transaction to IndexedDB permanently
                 await AppState.db.put('transactions', trx);
 
                 // Inventory & Loyalty Points Logic
@@ -890,7 +934,6 @@
                     if (AppState.paymentMethod === 'piutang') {
                         customer.debt = (customer.debt || 0) + total;
                     } else {
-                        // Earn 1 point per 10.000 IDR
                         customer.points = (customer.points || 0) + Math.floor(total / 10000);
                     }
                     await AppState.db.put('customers', customer);
@@ -902,16 +945,20 @@
                     this.checkPendingSync();
                 }
 
-                // Refresh Data
-                AppState.transactions.unshift(trx);
+                // FIX: Reload transaction history from IndexedDB and reset ONLY active cart
+                await this.reloadTransactions();
                 AppState.products = await AppState.db.getAll('products');
                 AppState.customers = await AppState.db.getAll('customers');
 
+                // Clear current shopping cart
+                AppState.cart = [];
+
+                // Render UI updates
                 UI.renderProducts();
                 UI.renderCart();
+                UI.renderTransactions();
                 UI.showReceipt(trx);
 
-                AppState.cart = [];
                 document.getElementById('modal-checkout').classList.add('hidden');
             },
 
@@ -935,7 +982,6 @@
                 }
                 const queue = await AppState.db.getAll('queue_sync');
                 for (let q of queue) {
-                    // Simulating Background Cloud Sync Request
                     await AppState.db.delete('queue_sync', q.id);
                 }
                 alert('Seluruh data offline berhasil disinkronkan ke cloud!');
@@ -1075,6 +1121,7 @@
                 this.renderCategories();
                 this.renderProducts();
                 this.renderCart();
+                this.renderTransactions();
                 this.renderCustomerSelectOptions();
             },
 
@@ -1097,7 +1144,6 @@
             },
 
             switchView(viewId, targetBtn) {
-                // Role Restriction: Kasir cannot view Reports / Settings
                 if (AppState.userRole === 'Kasir' && (viewId === 'view-reports' || viewId === 'view-settings')) {
                     alert('Akses Dibatasi! Membutuhkan Otorisasi Manager.');
                     return;
@@ -1114,6 +1160,7 @@
                 targetBtn.classList.remove('text-slate-400');
                 targetBtn.classList.add('text-brand-400');
 
+                if (viewId === 'view-transactions') this.renderTransactions();
                 if (viewId === 'view-products') this.renderMasterProducts();
                 if (viewId === 'view-customers') this.renderCustomers();
                 if (viewId === 'view-reports') this.renderReports();
@@ -1239,6 +1286,49 @@
                 const subtotal = AppState.cart.reduce((s, i) => s + (i.price * i.qty), 0);
                 const tax = Math.round(subtotal * 0.11);
                 this.updateSummary(subtotal, tax, subtotal + tax);
+            },
+
+            renderTransactions() {
+                const tbody = document.getElementById('transactions-history-table');
+                const searchVal = (document.getElementById('search-trx-input')?.value || '').toLowerCase();
+
+                const filtered = AppState.transactions.filter(t => 
+                    t.id.toLowerCase().includes(searchVal) || 
+                    (t.customerName && t.customerName.toLowerCase().includes(searchVal))
+                );
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="p-6 text-center text-slate-500">
+                                <i class="fa-solid fa-receipt text-2xl mb-1 block"></i>
+                                Belum ada riwayat transaksi tersimpan.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(t => `
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-bold text-white font-mono">${t.id}</td>
+                        <td class="p-3 text-slate-400">${new Date(t.timestamp).toLocaleString('id-ID')}</td>
+                        <td class="p-3 font-medium text-slate-200">${t.customerName || 'Umum'}</td>
+                        <td class="p-3 uppercase font-semibold text-brand-400">${t.method}</td>
+                        <td class="p-3 text-slate-300">${t.items ? t.items.reduce((a,b) => a + b.qty, 0) : 0} item</td>
+                        <td class="p-3 font-bold text-emerald-400">${AppState.formatCurrency(t.total)}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="UI.reprintReceipt('${t.id}')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded-lg text-[10px] font-bold border border-slate-700">
+                                <i class="fa-solid fa-print mr-1"></i> Struk
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            },
+
+            reprintReceipt(trxId) {
+                const trx = AppState.transactions.find(t => t.id === trxId);
+                if (trx) this.showReceipt(trx);
             },
 
             updateSummary(sub, tax, total) {
@@ -1457,10 +1547,10 @@
                 AppState.salesChartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['H-6', 'H-5', 'H-4', 'H-3', 'H-2', 'Kemarin', 'Hari Ini'],
+                        labels: ['Penjualan Selesai'],
                         datasets: [{
                             label: 'Omset Penjualan (Rp)',
-                            data: [150000, 280000, 180000, 320000, 250000, 410000, totalRev],
+                            data: [totalRev],
                             borderColor: '#6366f1',
                             backgroundColor: 'rgba(99, 102, 241, 0.1)',
                             fill: true,
@@ -1498,7 +1588,7 @@
         function registerSW() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'pos-ultimate-v2';
+                    const CACHE = 'pos-ultimate-v3';
                     self.addEventListener('install', (e) => {
                         self.skipWaiting();
                     });
